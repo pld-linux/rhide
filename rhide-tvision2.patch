@@ -1,0 +1,227 @@
+diff -ur rhide-1.5/commands.cc /home/users/undefine/src/rhide-1.5/commands.cc
+--- rhide-1.5/commands.cc	2003-01-04 08:54:51.000000000 +0000
++++ /home/users/undefine/src/rhide-1.5/commands.cc	2004-12-02 00:34:30.470713384 +0000
+@@ -147,8 +147,7 @@
+   __CM(SaveSameTime,121)\
+   __CM(WrapOn,122)\
+   __CM(WrapOff,123)\
+-  __CM(WrapToggle,124)\
+-  __CM(UpdateCodePage,125)
++  __CM(WrapToggle,124)
+ #undef __CM
+ #define __CM(x,y) add_command_constant("cmc"#x,cmc##x);
+ __RHIDE_EDITOR_COMMANDS__}
+diff -ur rhide-1.5/idedebug.cc /home/users/undefine/src/rhide-1.5/idedebug.cc
+--- rhide-1.5/idedebug.cc	2002-04-10 19:33:37.000000000 +0000
++++ /home/users/undefine/src/rhide-1.5/idedebug.cc	2004-12-02 00:26:49.260827944 +0000
+@@ -49,6 +49,10 @@
+ #define Uses_TDataWindow
+ #include <libtvgdb.h>
+ 
++#if TV_MAJOR_VERSION==2
++#define dual_display TScreen::dual_display
++#endif
++
+ static void RemoveSessionTempFiles(void);
+ 
+ TDisassemblerWindow *dis_win;
+Tylko w /home/users/undefine/src/rhide-1.5: idegc.exe
+diff -ur rhide-1.5/idemain.cc /home/users/undefine/src/rhide-1.5/idemain.cc
+--- rhide-1.5/idemain.cc	2002-02-14 18:33:51.000000000 +0000
++++ /home/users/undefine/src/rhide-1.5/idemain.cc	2004-12-02 00:26:49.260827944 +0000
+@@ -114,6 +114,10 @@
+ 
+ #include <edhists.h>
+ 
++#if TV_MAJOR_VERSION==2
++#define dual_display TScreen::dual_display
++#endif
++
+ void SaveScreen();
+ void RestoreScreen();
+ static int keep_temp_dir = 0;
+@@ -1727,7 +1731,11 @@
+           TMouse::suspend();
+           update_flag = 0;
+ #ifdef __linux__
++# if TV_MAJOR_VERSION==2
++          TScreen::suspend();
++# else
+           RestoreScreen();
++# endif
+ #else
+           TScreen::suspend();
+ #endif
+@@ -1932,7 +1940,11 @@
+   char *_rhide_opt = expand_rhide_spec("$(RHIDEOPT)");
+   char *rhide_opt = NULL;
+ 
++#if TV_MAJOR_VERSION==2
++  TGKey::SetKbdMapping(TGKey::dosUseDirect);
++#else
+   TGKey::useBIOS = 0;
++#endif
+ 
+   if (*_rhide_opt)
+   {
+@@ -1977,9 +1989,11 @@
+           break;
+         case 'H':
+ #ifdef __linux__
++# if TV_MAJOR_VERSION<2
+           extern int install_console_sigs;
+ 
+           install_console_sigs = 0;
++# endif
+ #endif
+           break;
+         case 'S':
+@@ -2001,7 +2015,11 @@
+ #endif
+           break;
+         case 'K':
++#if TV_MAJOR_VERSION==2
++          TGKey::SetKbdMapping(TGKey::dosUseBIOS);
++#else
+           TGKey::useBIOS = 1;
++#endif
+           break;
+         case 'G':
+           arg = next_option(rhide_opt, rhide_opt_end, i, argc, argv);
+@@ -2014,7 +2032,11 @@
+ #endif
+           break;
+         case 'p':
++#if TV_MAJOR_VERSION==2
++          //#warning Fix me!
++#else
+           TGKey::translateKeyPad = 0;
++#endif
+           break;
+         case 'k':
+           arg = next_option(rhide_opt, rhide_opt_end, i, argc, argv);
+diff -ur rhide-1.5/ideprj.cc /home/users/undefine/src/rhide-1.5/ideprj.cc
+--- rhide-1.5/ideprj.cc	2003-01-04 08:54:56.000000000 +0000
++++ /home/users/undefine/src/rhide-1.5/ideprj.cc	2004-12-02 00:26:49.261827792 +0000
+@@ -316,18 +316,22 @@
+ }
+ 
+ /* They are in tscreen.cc */
++#if TV_MAJOR_VERSION<2
+ void setBlinkState(void);
+ void setIntenseState(void);
++#endif
+ 
+ void
+ SetProjectScreenMode()
+ {
+   if (TScreen::screenMode != Project.screen_mode)
+     TProgram::application->setScreenMode(Project.screen_mode);
++#if TV_MAJOR_VERSION<2
+   if (IntenseMode)
+     setIntenseState();
+   else
+     setBlinkState();
++#endif
+ }
+ 
+ static void
+diff -ur rhide-1.5/rhgdb/gdbedit.cc /home/users/undefine/src/rhide-1.5/rhgdb/gdbedit.cc
+--- rhide-1.5/rhgdb/gdbedit.cc	2003-01-04 08:55:01.000000000 +0000
++++ /home/users/undefine/src/rhide-1.5/rhgdb/gdbedit.cc	2004-12-02 00:25:53.924240384 +0000
+@@ -124,8 +124,8 @@
+ 
+ TGDBEditWindow::TGDBEditWindow(const TRect & bounds,
+ const char *fileName, int aNumber):
+-TCEditWindow(bounds, (const char *) NULL, aNumber),
+-TWindowInit(&TGDBEditWindow::initFrame)
++TWindowInit(&TGDBEditWindow::initFrame),
++TCEditWindow(bounds, (const char *) NULL, aNumber)
+ {
+   TRect r(editor->origin.x, editor->origin.y,
+           editor->origin.x + editor->size.x,
+diff -ur rhide-1.5/rhgdb/main.cc /home/users/undefine/src/rhide-1.5/rhgdb/main.cc
+--- rhide-1.5/rhgdb/main.cc	2002-02-08 22:32:31.000000000 +0000
++++ /home/users/undefine/src/rhide-1.5/rhgdb/main.cc	2004-12-02 00:42:46.698275328 +0000
+@@ -62,6 +62,10 @@
+ #include "rhgdb.h"
+ 
+ 
++#if TV_MAJOR_VERSION==2
++#define dual_display TScreen::dual_display
++#endif
++
+ extern int RunProgram(const char *cmd,
+                       Boolean redir_stderr, Boolean redir_stdout,
+ 
+@@ -168,9 +172,9 @@
+ }
+ 
+ RHGDBApp::RHGDBApp():
+-TApplication(),
+ TProgInit(RHGDBApp::initStatusLine,
+-          RHGDBApp::initMenuBar, RHGDBApp::initDeskTop)
++          RHGDBApp::initMenuBar, RHGDBApp::initDeskTop),
++TApplication()
+ {
+ }
+ 
+@@ -589,7 +593,7 @@
+         case cmUserScreen:
+         {
+           TMouse::suspend();
+-#if 0
++#if TV_MAJOR_VERSION==2
+           TScreen::suspend();
+ #else
+           RestoreScreen();
+@@ -598,14 +602,14 @@
+           {
+             clearEvent(event);
+ #ifdef __linux__
+-            timeout(1);
++//            timeout(1);
+ #endif
+             event.getKeyEvent();
+ #ifdef __DJGPP__
+             __dpmi_yield();
+ #else
+ #ifdef __linux__
+-            timeout(0);
++ //           timeout(0);
+ #endif
+ #endif
+           }
+@@ -790,12 +794,18 @@
+           use_dual_display = 1;
+           break;
+         case 'M':
++#if TV_MAJOR_VERSION<2
+           extern int use_mouse_handler;
+ 
+           use_mouse_handler = 0;
++#endif
+           break;
+         case 'K':
++#if TV_MAJOR_VERSION==2
++          TGKey::SetKbdMapping(TGKey::dosUseBIOS);
++#else
+           TGKey::useBIOS = 1;
++#endif
+           break;
+         case 'G':
+ //          extern int screen_saving;
+diff -ur rhide-1.5/rhgdb/options.cc /home/users/undefine/src/rhide-1.5/rhgdb/options.cc
+--- rhide-1.5/rhgdb/options.cc	2002-04-10 19:35:16.000000000 +0000
++++ /home/users/undefine/src/rhide-1.5/rhgdb/options.cc	2004-12-02 00:25:53.925240232 +0000
+@@ -38,8 +38,8 @@
+ };
+ 
+ TEnvironmentDialog::TEnvironmentDialog():
+-TDialog(TRect(0, 0, 65, 17), _("Environment options")),
+-TWindowInit(TEnvironmentDialog::initFrame)
++TWindowInit(TEnvironmentDialog::initFrame),
++TDialog(TRect(0, 0, 65, 17), _("Environment options"))
+ {
+   TRect
+     r;
