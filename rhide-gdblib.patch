@@ -1,0 +1,17 @@
+--- libgdb/version.c~	1970-01-01 00:00:00.000000000 +0000
++++ libgdb/version.c	2004-11-30 03:47:46.897538992 +0000
+@@ -0,0 +1 @@
++int main(int argc, char **argv){extern const char version[];printf("%s\n",version);return 0;}
+--- libgdb/makefile.src~	2003-02-16 12:19:57.000000000 +0000
++++ libgdb/makefile.src	2004-11-30 03:52:41.695722856 +0000
+@@ -180,9 +180,7 @@
+ 	$(MAKE) -C $(dir $@) $(notdir $@)
+ 	
+ echo_ver.exe: $(GDB_OBJ)/gdb/version.o
+-	echo 'int main(int argc, char **argv)\
+-	  {extern const char version[];printf("%s\n",version);return 0;}' | \
+-	gcc -s -o $@ $< -x c -
++	gcc -s -o $@ $< -x c version.c
+ 
+ gdb_ver.txt: echo_ver.exe
+ 	./$< | sed -e "s,\.,,g" \
