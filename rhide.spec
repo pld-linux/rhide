@@ -21,7 +21,7 @@ support is somewhat untested but should work after some runtime
 configuration on RHIDE.
 
 %description -l pl
-RHIDE pozwala Ci na tworzenie programów w ¶rodowisku textowym podobnym
+RHIDE pozwala Ci na tworzenie programów w ¶rodowisku tekstowym podobnym
 do znanego z starego Borlandowskiego IDE, ale ulepszonym i
 zaadoptowanym dla GNU/Linux. RHIDE obs³uguje prawie ka¿dy kompilator
 który supportuje gcc i dodatkowo kompilatory pascala gpc i fpc.
