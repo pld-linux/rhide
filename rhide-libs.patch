@@ -1,0 +1,12 @@
+--- configure.in~	2003-02-15 15:58:34.000000000 +0100
++++ configure.in	2004-05-28 23:42:39.000000000 +0200
+@@ -50,7 +50,8 @@
+ 
+ TV_OBJ_SEARCH="$TV_INC/../`echo $rhide_OS | sed -e s,Linux,linux,g -e s,CYGWIN,win32,g` \
+ $TV_INC/../../lib"
+-RH_CHECK_FILE_LIST(TVOBJ, librhtv.a, $TV_OBJ_SEARCH,[Turbo Vision libraray])
++# RH_CHECK_FILE_LIST(TVOBJ, librhtv.a, $TV_OBJ_SEARCH,[Turbo Vision libraray])
++AC_CHECK_LIB(rhtv, beep,:,AC_MSG_ERROR([librhtv not found]))
+ 
+ SETSRC_SEARCH="$abs_srcdir/../setedit \
+ $DJDIR/contrib/setedit \
