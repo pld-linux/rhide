@@ -21,11 +21,11 @@ support is somewhat untested but should work after some runtime
 configuration on RHIDE.
 
 %description -l pl
-RHIDE pozwala Ci na tworzenie programów w ¶rodowisku tekstowym podobnym
+RHIDE pozwala na tworzenie programów w ¶rodowisku tekstowym podobnym
 do znanego z starego Borlandowskiego IDE, ale ulepszonym i
-zaadoptowanym dla GNU/Linux. RHIDE obs³uguje prawie ka¿dy kompilator
-który supportuje gcc i dodatkowo kompilatory pascala gpc i fpc.
-Obs³uga pascala jest gdzieniegdzie nieprzetestowana ale powinna
+zaadoptowanym dla systemu GNU/Linux. RHIDE obs³uguje prawie ka¿dy
+kompilator obs³ugiwany przez gcc i dodatkowo kompilatory pascala gpc i
+fpc. Obs³uga pascala jest gdzieniegdzie nieprzetestowana ale powinna
 dzia³aæ po ustawieniu w konfiguracji.
 
 %prep
@@ -36,13 +36,18 @@ dzia³aæ po ustawieniu w konfiguracji.
 %{__aclocal}
 %{__autoconf}
 %configure
-%{__make} RHIDESRC=`pwd`
+%{__make} \
+	RHIDESRC=`pwd`
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	RHIDESRC=`pwd` \
 	prefix=$RPM_BUILD_ROOT%{_prefix}
+
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %post
 tic /usr/share/rhide/eterm-rhide
@@ -87,6 +92,3 @@ tic /usr/share/rhide/eterm-rhide
 #%config %{_datadir}/rhide/SET/pmacros.pmc
 #%config %{_datadir}/rhide/SET/syntaxhl.shl
 #%config %{_datadir}/rhide/eterm-rhide
-#
-%clean
-rm -rf $RPM_BUILD_ROOT
