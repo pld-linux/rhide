@@ -1,0 +1,11 @@
+--- idespec.cc~	2003-02-08 22:47:28.000000000 +0000
++++ idespec.cc	2004-12-02 09:58:33.715758104 +0000
+@@ -402,7 +402,7 @@
+  "*.[cfhmnps]*",
+ 
+  "RHIDE_GREP",
+- "grep -n $(prompt "__("arguments for GREP")",$(WUC) $(DEFAULT_GREP_MASK))",
++ "grep -n $(prompt \"__(\"arguments for GREP\")\",$(WUC) $(DEFAULT_GREP_MASK))",
+ 
+  "RHIDE_GPROF",
+  "gprof $(OUTFILE)",
