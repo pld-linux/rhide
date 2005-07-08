@@ -24,8 +24,9 @@ Source0:	http://dl.sourceforge.net/rhide/%{name}-%{version}.tar.gz
 Source1:	http://dl.sourceforge.net/tvision/rhtvision-2.0.1.src.tar.gz
 # Source1-md5:	409c52e8ec111a10f40b41a7fd198766
 Source2:	http://dl.sourceforge.net/setedit/setedit-0.5.0.tar.gz
-# Source2-md5:	fc2f9724f11965fbd11475ff9235eaa0
+# Source2-md5:	81e89ab19c9b25015fb2078512e32f03
 Source3:	ftp://ftp.gnu.org/gnu/gdb/gdb-5.3.tar.gz
+# Source3-md5:	1e8566325f222edfbdd93e40c6ae921b
 Patch0:		%{name}-libs.patch
 Patch1:		%{name}-gdblib.patch
 Patch2:		%{name}-tvision2.patch
@@ -116,13 +117,17 @@ rm -rf $RPM_BUILD_ROOT
 	RHIDESRC=`pwd` \
 	prefix=$RPM_BUILD_ROOT%{_prefix}
 
+tic eterm-rhide -o .
+install -D x/xterm-eterm-tv $RPM_BUILD_ROOT%{_datadir}/terminfo/x/xterm-eterm-tv
+
+mv -f $RPM_BUILD_ROOT%{_datadir}/locale/{no,nb}
+
+%find_lang %{name}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
-tic /usr/share/rhide/eterm-rhide
-
-%files
+%files -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/gpr2mak
 %attr(755,root,root) %{_bindir}/gprexp
@@ -130,28 +135,19 @@ tic /usr/share/rhide/eterm-rhide
 %attr(755,root,root) %{_bindir}/rhide
 %attr(755,root,root) %{_bindir}/rhidex
 %attr(755,root,root) %{_bindir}/rhgdbx
-%doc %{_datadir}/doc/rhide/COPYING
-%doc %{_datadir}/doc/rhide/COPYING.RH
-%doc %{_datadir}/doc/rhide/LINUX.TXT
-%doc %{_datadir}/doc/rhide/README.IDE
-%doc %{_datadir}/doc/rhide/RHIDE.BIN
-%doc %{_datadir}/doc/rhide/VCSA.SH
-%doc %{_datadir}/doc/rhide/readme.key
-%doc %{_datadir}/doc/rhide/rhide.txt
+%dir %{_docdir}/rhide
+%{_docdir}/rhide/COPYING
+%{_docdir}/rhide/COPYING.RH
+%{_docdir}/rhide/LINUX.TXT
+%{_docdir}/rhide/README.IDE
+%{_docdir}/rhide/RHIDE.BIN
+%{_docdir}/rhide/VCSA.SH
+%{_docdir}/rhide/readme.key
+%{_docdir}/rhide/rhide.txt
 %{_infodir}/rhide.*
-%{_datadir}/locale/cs/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/da/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/de/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/es/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/fi/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/fr/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/it/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/nl/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/no/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/pl/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/pt/LC_MESSAGES/rhide.mo
-%{_datadir}/locale/sv/LC_MESSAGES/rhide.mo
+%dir %{_datadir}/rhide
 %config %{_datadir}/rhide/rhide_.env
+%dir %{_datadir}/rhide/SET
 %config %{_datadir}/rhide/SET/clippmac.pmc
 %config %{_datadir}/rhide/SET/cpmacros.pmc
 %config %{_datadir}/rhide/SET/htmlmac.pmc
@@ -160,3 +156,4 @@ tic /usr/share/rhide/eterm-rhide
 %config %{_datadir}/rhide/SET/pmacros.pmc
 %config %{_datadir}/rhide/SET/syntaxhl.shl
 %config %{_datadir}/rhide/eterm-rhide
+%{_datadir}/terminfo/x/xterm-eterm-tv
