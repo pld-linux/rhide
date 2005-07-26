@@ -46,7 +46,7 @@ configuration on RHIDE.
 
 %description -l pl
 RHIDE pozwala na tworzenie programów w ¶rodowisku tekstowym podobnym
-do znanego z starego Borlandowskiego IDE, ale ulepszonym i
+do znanego ze starego Borlandowskiego IDE, ale ulepszonym i
 zaadoptowanym dla systemu GNU/Linux. RHIDE obs³uguje prawie ka¿dy
 kompilator obs³ugiwany przez gcc i dodatkowo kompilatory Pascala gpc i
 fpc. Obs³uga Pascala jest gdzieniegdzie nieprzetestowana ale powinna
