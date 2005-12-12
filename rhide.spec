@@ -63,7 +63,7 @@ sed -i -e 's:--add-location $(po_list_l):--add-location --from-code=iso-8859-1 $
 	setedit/internac/gnumake.in
 
 %build
-CFLAGS="%{rpmcflags} -I/usr/include/ncurses"
+CFLAGS="%{rpmcflags} -I%{_includedir}/ncurses"
 export CFLAGS
 cd tvision
 ./configure \
