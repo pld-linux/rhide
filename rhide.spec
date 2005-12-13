@@ -63,7 +63,7 @@ sed -i -e 's:--add-location $(po_list_l):--add-location --from-code=iso-8859-1 $
 	setedit/internac/gnumake.in
 
 %build
-CFLAGS="%{rpmcflags} -I%{_includedir}/ncurses"
+CFLAGS="%{rpmcflags} -I/usr/include/ncurses"
 export CFLAGS
 cd tvision
 ./configure \
@@ -79,7 +79,7 @@ cd setedit
 	--fhs \
 	--libset \
 	--without-mp3
-sed -i -e 's/needed: internac doc-basic/needed: internac/' Makefile 
+sed -i -e 's/needed: internac doc-basic/needed: internac/' Makefile
 %{__make}
 cd -
 
@@ -104,9 +104,9 @@ done
 
 %{__make} \
 	RHIDESRC=`pwd` \
-	C_OPT_FLAGS="%{rpmcflags} -I%{_includedir}/ncurses" \
-	C_EXTRA_FLAGS="%{rpmcflags} -I%{_includedir}/ncurses" \
-	CFLAGS="%{rpmcflags} -I%{_includedir}/ncurses" \
+	C_OPT_FLAGS="%{rpmcflags} -I/usr/include/ncurses" \
+	C_EXTRA_FLAGS="%{rpmcflags} -I/usr/include/ncurses" \
+	CFLAGS="%{rpmcflags} -I/usr/include/ncurses" \
 	C_WARN_FLAGS="" \
 	SET_SPECIAL_LDFLAGS="%{rpmldflags} -L%{_prefix}/X11R6/%{_lib} -lXmu"
 
