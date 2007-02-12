@@ -13,7 +13,7 @@
 # - big, big, big... cleanup
 # - sleep() (ups.. it's for me, not spec...)
 Summary:	IDE for developing like the old known Borland C++ 3.1 IDE
-Summary(pl.UTF-8):   IDE dla programistów podobne do starego IDE z Borland C++ 3.1
+Summary(pl.UTF-8):	IDE dla programistów podobne do starego IDE z Borland C++ 3.1
 Name:		rhide
 Version:	1.5
 Release:	0.1
