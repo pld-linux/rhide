@@ -13,7 +13,7 @@
 # - big, big, big... cleanup
 # - sleep() (ups.. it's for me, not spec...)
 Summary:	IDE for developing like the old known Borland C++ 3.1 IDE
-Summary(pl):	IDE dla programistÛw podobne do starego IDE z Borland C++ 3.1
+Summary(pl.UTF-8):   IDE dla programist√≥w podobne do starego IDE z Borland C++ 3.1
 Name:		rhide
 Version:	1.5
 Release:	0.1
@@ -44,13 +44,13 @@ and additionally also the Pascal compilers gpc and fpc. The Pascal
 support is somewhat untested but should work after some runtime
 configuration on RHIDE.
 
-%description -l pl
-RHIDE pozwala na tworzenie programÛw w ∂rodowisku tekstowym podobnym
+%description -l pl.UTF-8
+RHIDE pozwala na tworzenie program√≥w w ≈õrodowisku tekstowym podobnym
 do znanego ze starego borlandowskiego IDE, ale ulepszonym i
-zaadoptowanym dla systemu GNU/Linux. RHIDE obs≥uguje prawie kaødy
-kompilator obs≥ugiwany przez gcc i dodatkowo kompilatory Pascala gpc i
-fpc. Obs≥uga Pascala jest gdzieniegdzie nieprzetestowana ale powinna
-dzia≥aÊ po ustawieniu w konfiguracji.
+zaadoptowanym dla systemu GNU/Linux. RHIDE obs≈Çuguje prawie ka≈ºdy
+kompilator obs≈Çugiwany przez gcc i dodatkowo kompilatory Pascala gpc i
+fpc. Obs≈Çuga Pascala jest gdzieniegdzie nieprzetestowana ale powinna
+dzia≈Çaƒá po ustawieniu w konfiguracji.
 
 %prep
 %setup -q -a 1 -a 2 -a 3
