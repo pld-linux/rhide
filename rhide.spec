@@ -25,7 +25,7 @@ Source1:	http://dl.sourceforge.net/tvision/rhtvision-2.0.1.src.tar.gz
 # Source1-md5:	409c52e8ec111a10f40b41a7fd198766
 Source2:	http://dl.sourceforge.net/setedit/setedit-0.5.0.tar.gz
 # Source2-md5:	81e89ab19c9b25015fb2078512e32f03
-Source3:	ftp://ftp.gnu.org/gnu/gdb/gdb-5.3.tar.gz
+Source3:	http://ftp.gnu.org/gnu/gdb/gdb-5.3.tar.gz
 # Source3-md5:	1e8566325f222edfbdd93e40c6ae921b
 Patch0:		%{name}-libs.patch
 Patch1:		%{name}-gdblib.patch
