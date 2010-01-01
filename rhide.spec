@@ -34,7 +34,7 @@ Patch4:		%{name}-misc.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 # BuildRequires:	librhtv-devel
-Buildroot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 RHIDE allows you to develop your programs in an text-based environment
