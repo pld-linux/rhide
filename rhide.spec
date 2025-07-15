@@ -54,10 +54,10 @@ działać po ustawieniu w konfiguracji.
 
 %prep
 %setup -q -a 1 -a 2 -a 3
-%patch0
-%patch1
-%patch2 -p1
-%patch4
+%patch -P0
+%patch -P1
+%patch -P2 -p1
+%patch -P4
 
 sed -i -e 's:--add-location $(po_list_l):--add-location --from-code=iso-8859-1 $(po_list_l):' \
 	setedit/internac/gnumake.in
